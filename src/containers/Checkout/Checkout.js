@@ -7,9 +7,10 @@ class Checkout extends Component {
   state = {
     ingredients: null,
     price: 0
-  };
+  }
 
   componentWillMount() {
+    // super(props);
     const params = new URLSearchParams(this.props.location.search);
     const ingredients = {};
     let price = 0;
@@ -21,7 +22,7 @@ class Checkout extends Component {
         }
     }
     this.setState({ ingredients: ingredients, price: price });
-    // console.log(ingredients)
+    console.log('ingredients setted');
   }
 
   checkoutCancelledHandler = () => {
@@ -33,6 +34,7 @@ class Checkout extends Component {
   };
 
   render() {
+    console.log('...rendering');
     return (
       <div>
         <CheckoutSummary
