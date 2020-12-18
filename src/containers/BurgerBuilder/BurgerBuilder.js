@@ -22,17 +22,17 @@ class BurgerBuilder extends Component {
     purchaseable: false,
     purchasing: false,
     loading: false,
-    error: false
+    error: false,
   };
 
   componentDidMount() {
     axios
-      .get('/ingredients.json')
+      .get("/ingredients.json")
       .then((response) => {
         this.setState({ ingredients: response.data });
       })
-      .catch(err => {
-        this.setState({error: true});
+      .catch((err) => {
+        this.setState({ error: true });
       });
   }
 
@@ -51,39 +51,25 @@ class BurgerBuilder extends Component {
     this.setState({ purchasing: false });
   };
 
-  purchaseAcceptedandler = () => {
-    // alert('You have accepted the purchase');
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: "Lele Lopez",
-        address: {
-          addressLine: "Sesame St. 29",
-          zipCode: "08012",
-          country: "Spain",
-        },
-        email: "elmo@gmail.com",
-      },
-      deliveryMethod: "fastest",
-    };
-    axios
-      .post("/orders.json", order)
-      .then((response) => {
-        this.setState({
-          loading: false,
-          purchasing: false,
-        });
-        console.log(response);
-      })
-      .catch((err) => {
-        this.setState({
-          loading: false,
-          purchasing: false,
-        });
-        console.log(err);
-      });
+  purchaseContinueHandler = () => {
+    const queryParams = [];
+    for (const key in this.state.ingredients) {
+      queryParams.push(
+        encodeURIComponent(key) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[key])
+      );
+    }
+    queryParams.push(
+      encodeURIComponent("price") +
+        "=" +
+        encodeURIComponent(this.state.totalPrice)
+    );
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: "/checkout",
+      search: `?${queryString}`,
+    });
   };
 
   addIngredientHandler = (type) => {
@@ -150,15 +136,14 @@ class BurgerBuilder extends Component {
         <OrderSummary
           price={this.state.totalPrice}
           canceled={this.purchaseCancelHandler}
-          accepted={this.purchaseAcceptedandler}
+          accepted={this.purchaseContinueHandler}
           ingredients={this.state.ingredients}
         />
       );
-  
+
       if (this.state.loading) {
         modalContent = <Spinner />;
       }
-  
     }
     return (
       <Auxiliary>
