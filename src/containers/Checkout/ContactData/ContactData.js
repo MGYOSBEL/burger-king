@@ -99,6 +99,16 @@ class ContactData extends Component {
       });
   };
 
+  orderInputChangeHandler = (event, inputElementKey) => {
+    const updatedOrderForm = {...this.state.orderForm};
+
+    const updatedInputElement = {...updatedOrderForm[inputElementKey]};
+
+    updatedInputElement.value = event.target.value;
+    updatedOrderForm[inputElementKey] = updatedInputElement;
+    this.setState({orderForm: updatedOrderForm});
+  }
+
   render() {
     let formsElementArray = [];
     for (const key in this.state.orderForm) {
@@ -112,33 +122,17 @@ class ContactData extends Component {
       <div className={classes.ContactData}>
         <h4>Enter your contact data:</h4>
         <form>
-          {/* <Input elementType="..." elementConfig="..." value="..." /> */}
           {formsElementArray.map((formElement) => (
             <Input
               elementType={formElement.config.elementType}
               elementConfig={formElement.config.elementConfig}
               value={formElement.config.value}
               key={formElement.id}
+              changed={(event) =>
+                this.orderInputChangeHandler(event, formElement.id)
+              }
             />
           ))}
-          {/* <Input
-            inputElement="input"
-            type="email"
-            name="email"
-            placeholder="Your email"
-          />
-          <Input
-            inputElement="input"
-            type="text"
-            name="street"
-            placeholder="Street line"
-          />
-          <Input
-            inputElement="input"
-            type="text"
-            name="zipCode"
-            placeholder="Zip Code"
-          /> */}
           <Button buttonType="Success" clicked={this.checkoutHandler}>
             ORDER
           </Button>
