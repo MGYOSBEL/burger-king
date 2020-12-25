@@ -7,6 +7,7 @@ export const purchaseBurgerStart = () => {
         type: actionTypes.PURCHASE_BURGER_START,
     };
 }
+
 export const purchaseBurgerSuccess = () => {
     return {
         type: actionTypes.PURCHASE_BURGER_SUCCESS,

@@ -1,15 +1,15 @@
 export {
-    addIngredient,
-    removeIngredient,
-    initIngredients
-} from './burgerActions';
+  addIngredient,
+  removeIngredient,
+  initIngredients,
+} from "./burgerActions";
 
-export {
+export { 
     purchaseBurger,
-    purchaseInit
-} from './purchaseActions';
+    purchaseInit 
+} from "./purchaseActions";
 
 export {
-    addOrder
-} from './orderActions';
-
+    addOrder,
+    fetchOrders
+} from "./orderActions";
