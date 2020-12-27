@@ -111,9 +111,10 @@ class ContactData extends Component {
       ingredients: this.props.ingredients,
       price: this.props.price,
       orderData: formData,
+      userId: this.props.userId
     };
     // dispatch the action here
-    this.props.onSubmitOrder(order);
+    this.props.onSubmitOrder(order, this.props.token);
   };
 
   checkValueAndValidity(value, rules) {
@@ -146,13 +147,11 @@ class ContactData extends Component {
       updatedInputElement.value,
       updatedInputElement.validationRules
     );
-    console.log(updatedInputElement);
     updatedOrderForm[inputElementKey] = updatedInputElement;
     let formIsValid = true;
     for (const key in updatedOrderForm) {
       formIsValid = updatedOrderForm[key].isValid && formIsValid;
     }
-    console.log(formIsValid);
     this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
   };
 
@@ -200,13 +199,15 @@ const mapStateToProps = state => {
   return {
     ingredients: state.burger.ingredients,
     price: state.burger.price,
-    loading: state.purchase.loading
+    loading: state.purchase.loading,
+    token: state.auth.token,
+    userId: state.auth.userId
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSubmitOrder: (order) => dispatch(actions.purchaseBurger(order))
+    onSubmitOrder: (order, token) => dispatch(actions.purchaseBurger(order, token))
   };
 }
 

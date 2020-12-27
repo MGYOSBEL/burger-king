@@ -29,11 +29,16 @@ export const fetchOrdersFailed = (err) => {
   };
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = (token, userId) => {
   return (dispatch) => {
     dispatch(fetchOrdersStart());
+    const queryParams = [
+      `auth=${token}`,
+      `orderBy="userId"`,
+      `equalTo="${userId}"`
+    ].join('&');
     axios
-      .get("/orders.json")
+      .get(`/orders.json?${queryParams}`)
       .then((response) => {
         //   Transform the orders here cause is better the reducer receives the data it's going to save
         // If i changed my backend, or the way data is formatted, I prepare the orer here, and the reducer doesnt have to change

@@ -13,3 +13,10 @@ export {
     addOrder,
     fetchOrders
 } from "./orderActions";
+
+export {
+  login,
+  logout,
+  setAuthRedirectPath,
+  checkAuthState
+} from './authActions';

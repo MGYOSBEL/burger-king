@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
+import { updateObject } from "../utils/helpers";
 
 const initialState = {
   orders: [],
@@ -22,27 +23,22 @@ const orderReducer = (state = initialState, action) => {
 };
 
 const fetchOrdersStart = (state) => {
-  return {
-    ...state,
-    loading: true,
-  };
+  return updateObject(state, { loading: true });
 };
 
 const fetchOrdersSuccess = (state, action) => {
-  return {
-    ...state,
-    loading: false,
-    orders: action.orders,
-  };
+    return updateObject(state, {
+        loading: false,
+        orders: action.orders
+        });
 };
 
 const fetchOrdersFail = (state, action) => {
-  return {
-    ...state,
+  return updateObject(state, {
     loading: false,
     orders: [],
     error: action.error,
-  };
+  });
 };
 
 const addOrder = (state, action) => {
@@ -50,10 +46,8 @@ const addOrder = (state, action) => {
     ...action.orderData,
     id: action.orderId,
   };
-  return {
-    ...state,
-    orders: state.orders.concat(newOrder),
-  };
+  const updatedOrders = state.orders.concat(newOrder);
+  return updateObject(state, {orders: updatedOrders});
 };
 
 export default orderReducer;

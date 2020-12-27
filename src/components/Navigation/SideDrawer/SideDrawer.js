@@ -12,7 +12,7 @@ const sideDrawer = (props) => (
         <Logo />
       </div>
       <nav>
-        <NavigationItems />
+        <NavigationItems isLoggedIn={props.isLoggedIn}/>
       </nav>
     </div>
   </>
