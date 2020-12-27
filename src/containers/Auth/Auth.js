@@ -42,7 +42,7 @@ class Auth extends Component {
       },
     },
     formIsValid: false,
-    isSignUp: false
+    isSignUp: false,
   };
 
   loginInputChangeHandler = (event, inputElementKey) => {
@@ -98,10 +98,10 @@ class Auth extends Component {
 
   signUpHandler = () => {
     this.setState((prevState) => ({
-      isSignUp: !prevState.isSignUp
+      isSignUp: !prevState.isSignUp,
     }));
-  }
- 
+  };
+
   render() {
     let formsElementArray = [];
     for (const key in this.state.controls) {
@@ -117,6 +117,7 @@ class Auth extends Component {
 
     let content = (
       <>
+        <h4>{this.state.isSignUp ? `Create a new user:` : `Enter your credentials:`}</h4>
         {errorMessage}
         <form>
           {formsElementArray.map((formElement) => (
@@ -141,13 +142,9 @@ class Auth extends Component {
             SUBMIT
           </Button>
         </form>
-        <Button
-            buttonType="Danger"
-            clicked={this.signUpHandler}
-          >
-            {this.state.isSignUp ? 'SIGN UP' : 'SIGN IN'}
-          </Button>
-
+        <Button buttonType="Danger" clicked={this.signUpHandler}>
+          {this.state.isSignUp ? "Go to LOGIN page" : "Don't have an account? Go and SIGN UP"}
+        </Button>
       </>
     );
 
@@ -155,7 +152,7 @@ class Auth extends Component {
       content = <Spinner />;
     }
     if (this.props.isLoggedin) {
-      content = <Redirect to={this.props.redirectPath} />
+      content = <Redirect to={this.props.redirectPath} />;
     }
     return <div className={classes.Auth}>{content}</div>;
   }
@@ -165,12 +162,13 @@ const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   error: state.auth.error,
   isLoggedin: !!state.auth.userId,
-  redirectPath: state.auth.authRedirectPath
+  redirectPath: state.auth.authRedirectPath,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLogin: (email, password, isSignUp) => dispatch(actions.login(email, password, isSignUp)),
-  onLogout: () => dispatch(actions.logout())
+  onLogin: (email, password, isSignUp) =>
+    dispatch(actions.login(email, password, isSignUp)),
+  onLogout: () => dispatch(actions.logout()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);
